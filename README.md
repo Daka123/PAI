@@ -1,2 +1,2 @@
-# Projects-for-P-
-All projects and assigments for classes
+# Projects-for-TUL
+All projects and assigments for classes on Technical University of Lodz
