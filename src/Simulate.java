@@ -26,6 +26,63 @@ class Deadlock extends Thread {
     }
 }
 
+class Livelock extends Thread{
+    static class fork {
+        private Dinner owner;
+        public fork(Dinner dinner) {
+            owner = dinner;
+        }
+        public Dinner getOwner() {
+            return owner;
+        }
+        public synchronized void setOwner(Dinner dinner) {
+            owner = dinner;
+        }
+        public synchronized void use() {
+            System.out.println(owner + " has eaten.");
+        }
+    }
+
+    static class Dinner {
+        private String name;
+        private boolean isHungry;
+
+        public Dinner(String name) {
+            this.name=name;
+            this.isHungry=true;
+        }
+        public String getName() {
+            return name;
+        }
+
+        public boolean isHungry() {
+            return isHungry;
+        }
+
+        public void eatWith(fork fork, Dinner philosopher) throws InterruptedException {
+            while (isHungry) {
+                // Don't have the fork, so wait patiently for other philosopher.
+                if (fork.owner != this) {
+                    Thread.sleep(1);
+                    continue;
+                }
+                // If other philosopher is hungry, insist upon passing the fork.
+                if (philosopher.isHungry()) {
+                    System.out.println(name + ": You eat first my friend " + philosopher.getName());
+                    fork.setOwner(philosopher);
+                    continue;
+                }
+                // philosopher wasn't hungry, so finally eat
+                fork.use();
+                isHungry = false;
+                System.out.println(name +  ": I am stuffed, my friend " + philosopher.getName());
+                fork.setOwner(philosopher);
+            }
+        }
+        //socrates
+        //plato
+    }
+}
 
 public class Simulate {
 
