@@ -84,6 +84,38 @@ class Livelock extends Thread{
     }
 }
 
+class Starvation extends Thread {
+
+    class Worker {
+        String name;
+
+        public Worker(String name){
+            this.name=name;
+        }
+
+        public synchronized void work() {
+            while (true) {
+                System.out.println(name + " is working");
+            }
+        }
+    }
+
+    public void run() {
+        Worker worker1 = new Worker("Sheldon");
+        Worker worker2 = new Worker("Leonard");
+        Worker worker3 = new Worker("Raj");
+        Worker worker4 = new Worker("Howard");
+        Worker worker5 = new Worker("Penny");
+
+        worker1.work();
+        worker2.work();
+        worker3.work();
+        worker4.work();
+        worker5.work();
+
+    }
+}
+
 public class Simulate {
 
 
